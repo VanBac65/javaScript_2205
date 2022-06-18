@@ -10,7 +10,7 @@ console.log(`BMI của John data1 = ${bmiJohn}`);
 console.log(`BMI của Marks data2 = ${bmiMarks2}`);
 console.log(`BMI của Harry data2 = ${bmiHarry}`);
 
-function compareData1(bmiMarks1, bmiJohn, bmiMark2, bmiHarry) {
+function compareData1(bmiMarks1, bmiJohn, bmiMarks2, bmiHarry) {
     if(bmiMarks1 > bmiJohn){
         console.log(`Marks ${bmiMarks1} BMI is higher than John ${bmiJohn} BMI!`)
     }
