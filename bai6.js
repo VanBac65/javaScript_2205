@@ -49,4 +49,3 @@ function check(name, point){
 check('Bắc', 555)
 check('Bắc', -5)
 check('Bắc', 66)
-check('Bắc', 30)
