@@ -28,4 +28,5 @@ function checkData(a, b, c) {
 }
 
 checkData(-2, -9, -3);
+
 checkData(5, 7, 9);
