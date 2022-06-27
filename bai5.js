@@ -9000,34 +9000,37 @@ const data = [
         "salary": 12375
     }
 ]
-
+let a = []
 const fiterData1 = data.reduce((pre, currentValue) => {
-    return console.log({ firstName: currentValue.first_name, lastName: currentValue.last_name })
-})
+    pre.push(`${currentValue.first_name} ${currentValue.last_name}`)
+    return pre
+}, [])
+
+console.log(fiterData1)
 
 const filterData2 = data.reduce((pre, currentValue) => {
-    if (currentValue.age < 40 && currentValue.gender === 'Male') {
+    if (currentValue.age < 40 && currentValue.gender.toLocaleLowerCase === 'male') {
         return console.log(currentValue)
     }
 })
 
-const filterData3 = data.reduce((pre, currentValue) => {
-    let a = []
-    a = data.map((item) => {
-        return ({ firstName: item.first_name, lastName: item.last_name })
-    })
-    return a
-})
+// const filterData3 = data.reduce((pre, currentValue) => {
+//     let a = []
+//     a = data.map((item) => {
+//         return ({ firstName: item.first_name, lastName: item.last_name })
+//     })
+//     return a
+// })
 
-console.log(filterData3)
+// console.log(filterData3)
 
-const filterData4 = data.reduce((pre) => {
-    let a = []
-    a = data.map((item) => {
-        return ({ id: item.id, firstName: item.first_name, lastName: item.last_name, email: item.email, gender: item.gender, age: item.age, salary: item.salary })
-    })
+// const filterData4 = data.reduce((pre) => {
+//     let a = []
+//     a = data.map((item) => {
+//         return ({ id: item.id, firstName: item.first_name, lastName: item.last_name, email: item.email, gender: item.gender, age: item.age, salary: item.salary })
+//     })
 
-    return a
-})
+//     return a
+// })
 
-console.log(filterData4)
+// console.log(filterData4)

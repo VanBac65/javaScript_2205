@@ -46,9 +46,9 @@ let tableContent = `<tr>
 articles.forEach((item, index) => {
   let dataIndex = index
   tableContent += `<tr>
-  <td>${articles[index].name}</td>
-  <td class="title">${articles[index].title}</td>
-  <td id="data-description" class="description">${articles[index].description}
+  <td>${item.name}</td>
+  <td class="title">${item.title}</td>
+  <td id="data-description" class="description">${item.description}
   <a style="display:none" id="toggle2" onclick="readmore1(${dataIndex})" href="#">Xem thêm</a>
   <a style="display:block" id="toggle1" onclick="readmore(${dataIndex})" href="#">Ẩn</a></td>
 </tr>`
