@@ -1,0 +1,38 @@
+
+body{
+    height: auto;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div {
+    width: 100%;
+    height: 150px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px red;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    background-image: linear-gradient(grey, yellow);
+}
+
+form {
+    margin-left: 10%;
+}
+
+input {
+    background-image: linear-gradient(grey, yellow);
+    outline: none;
+    border: 0px;
+}
+
+[type='button'],[type='submit'] {
+    height: 30px;
+    width: 60px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+[type='button']:hover,[type='submit']:hover {
+    box-shadow: 0 0 10px red;
+}
