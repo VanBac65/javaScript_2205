@@ -1,0 +1,29 @@
+body{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#abc{
+    width: 100%;
+}
+
+#abc, #abc td, #abc th, table, #search tr, #search th,#search td {
+    border: 1px solid black;
+}
+
+#abc{
+    margin-bottom: 20px;
+}
+
+.table {
+    float: left;
+    margin-right: 50px;
+}
+
+#nbpage{
+    margin-left: 20%
+}
+
+#search {
+    margin-top: 50px;
+}
