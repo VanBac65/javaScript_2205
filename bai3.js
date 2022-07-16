@@ -3,7 +3,6 @@ let total = 0
 let nested = 1;
 let dq = 1
 function totalArr(arr) {
-
     for (let i = 0; i < arr.length; i++) {
         if (Array.isArray(arr[i]) == false) {
             total += nested * arr[i]
