@@ -123,20 +123,20 @@ const renderDataSearch = (data, numberPage) => {
     const render = document.querySelector('.render')
     const rs = data.map(({ id, img, company, name, price }, index) => {
         if (index >= (numberPage - 1) * 8 && index < (numberPage) * 9 - 1) {
-            console.log(index)
             return `<div class="col-md-3 card-data" >
-                    <div class='card' style="height:500px">
-                    <img class="card-img-top img" src=${img}>
-                        <div class='card-body'>
-                            <h5 class='card-title'>${name}</h3>
-                            <p>Giá: ${price.toLocaleString()} đ</p>
-                            <button class='buy${id} form-control bg-primary' onclick='btnBuy(${id})=>Mua</button>
+                        <div class='card' style="height:500px">
+                            <img class="card-img-top img" src=${img}>
+                            <div class='card-body'>
+                                <h5 class='card-title'>${name}</h3>
+                                <p>Giá: ${price.toLocaleString()} đ</p>
+                                <button class='buy${id} form-control bg-primary' onclick='btnBuy(${id})'>Mua</button>
+                            </div>
                         </div>
-                    </div>
-                </div>`
+                    </div>`
         }
     })
-    html += rs.join('');
+    const newRs = rs.join('');
+    html += newRs
     html += `</div>`
     render.innerHTML = html
 
@@ -144,12 +144,10 @@ const renderDataSearch = (data, numberPage) => {
 const searchData = (data) => {
     function searchInput(data, value) {
         const rsSearch = data.filter(({ name, company }) => name == value.toLowerCase() || company == value.toLowerCase())
-        console.log(rsSearch)
         renderDataSearch(rsSearch, 1)
         function numberPageSearch(data) {
             let html = ``
             const rsNumberPage = Math.ceil(data.length / 8)
-            console.log(rsNumberPage)
             for (let i = 0; i < rsNumberPage; i++) {
                 html += `<button class='me-1' id='clickSearch${i}'>${i + 1}</button>`
             }
@@ -157,17 +155,13 @@ const searchData = (data) => {
                 document.querySelector('.number-page').innerHTML = html
                 for (let i = 0; i < rsNumberPage; i++) {
                     document.querySelector(`#clickSearch${i}`).onclick = function () {
-                        console.log(i)
-                        renderDataSearch(rsSearch, i + 1)
+                        renderDataSearch(rsSearch, i)
                     }
                 }
             }
             else {
                 document.querySelector('.number-page').innerHTML = ''
             }
-            console.log(rsNumberPage)
-            console.log(rsSearch)
-
         }
         numberPageSearch(rsSearch)
     }
@@ -212,54 +206,76 @@ function btnCategory() {
     const newArrBuy = arrBuy.filter(elm => elm)
     document.querySelector('.home-page').style.display = 'none'
     const renderCategory = (newArrBuy) => {
-        let html = `<div class="container">
-                        <table id="cart" class="table table-hover table-condensed">
-                            <thead>
-                                <tr>
-                                    <th style="width:15%">Ảnh</th>
-                                    <th style="width:35%">Tên sản phẩm</th>
-                                    <th style="width:10%">Giá</th>
-                                    <th style="width:8%">Số lượng</th>
-                                    <th style="width:22%" class="text-center">Thành tiền</th>
-                                    <th style="width:10%"></th>
-                                </tr>
-                            </thead>
-                            <tbody>`
+        // let html = `<div class="container-fluid">
+        //                 <table id="cart" class="table table-hover table-condensed">
+        //                     <thead>
+        //                         <tr>
+        //                             <th class='col-md-1' style="width:15%">Ảnh</th>
+        //                             <th class='col-md-1' style="width:35%">Tên sản phẩm</th>
+        //                             <th style="width:10%">Giá</th>
+        //                             <th style="width:8%">Số lượng</th>
+        //                             <th style="width:22%" class="text-center">Thành tiền</th>
+        //                             <th style="width:10%"></th>
+        //                         </tr>
+        //                     </thead>
+        //                     <tbody>`
+        let html = `<div class='container-fluid  p-1'>
+                        <div class='row d-flex text-center'>
+                                <div class='col-1'>Ảnh</div>
+                                <div class='col-3'>Tên điện thoại</div>
+                                <div class='col-1'>Giá</div>
+                                <div class='col-3'>Số lượng</div>
+                                <div class='col-3'>Thành tiền</div>
+                                <div class='col-1'></div>
+                        </div>`
         const renderDataCategory = (newArrBuy) => {
             const render = newArrBuy.map(({ company, name, price, img, id }, index) => {
-                return `<tr>
-                            <td data-th="Product">
-                                <div class="row">
-                                    <div class="col-sm-2 hidden-xs"><img src='${img}'
-                                    class="img-responsive" width="100"></div>
+                // return `<tr>
+                //             <td data-th="Product">
+                //                 <div class="row">
+                //                     <div class="col-md-1"><img src='${img}'
+                //                     class="img-responsive" width="100"></div>
+                //                 </div>
+                //             </td>
+                //             <td>
+                //                 <div class="col-md-10">
+                //                     <h4 class="nomargin">${name}</h4>
+                //                 </div>
+                //             </td>
+                //             <td data-th="Price">${price.toLocaleString()} đ</td>
+                //             <td data-th="Quantity"><input class="rsPhone${id} form-control text-center" readonly value='1' type="text">
+                //                 <div class='d-flex'>
+                //                     <button class='plus${id} form-control bg-danger' value='${price}' onclick='btnPlus(${id})'><i class="fa-solid fa-plus "></i></button>
+                //                     <button class='minus${id} form-control bg-warning' value='${price}' onclick='btnMinus(${id})'><i class="fa-solid fa-minus"></i></button>
+                //                 </div>
+                //             </td>
+                //             <td data-th="Subtotal" class="total-price${id} text-center" value='${price}'>
+                //                 <input class="rsPhone2${id} form-control text-center" readonly value='${price.toLocaleString()} đ' type="text"> 
+                //             </td>
+                //             <td class="actions" data-th="">
+                //                 <button class="btn form-control btn-danger btn-sm"><i class="fa fa-trash-o"></i>Xóa
+                //                 </button>
+                //             </td>
+                //         </tr>`
+                return `<div class='row pt d-flex justify-content-center'>
+                                <div class='col-1 text-wrap'><img src='${img}' class="w-100 img-responsive"></div>
+                                <div class='col-3 pt-4 text-wrap'>${name}</div>
+                                <div class='col-1 pt-4 text-wrap'>${price.toLocaleString()} đ</div>
+                                <div class='col-3 pt-4 d-flex'>
+                                            <div class='p-0 col-2'><button class=' plus${id} form-control bg-danger' value='${price}' onclick='btnPlus(${id})'><i class=" p-0 fa-solid fa-plus "></i></button></div>
+                                            <div class='p-0 col-8'><input class="rsPhone${id} form-control text-center" readonly value='1' type="text"></div>
+                                            <div class='p-0 col-2'><button class='col-1 minus${id} form-control bg-warning' value='${price}' onclick='btnMinus(${id})'><i class="fa-solid p-0 fa-minus"></i></button></div>                               
                                 </div>
-                            </td>
-                            <td>
-                                <div class="col-sm-10">
-                                    <h4 class="nomargin">${name}</h4>
-                                </div>
-                            </td>
-                            <td data-th="Price">${price.toLocaleString()} đ</td>
-                            <td data-th="Quantity"><input class="rsPhone${id} form-control text-center" readonly value='1' type="text">
-                                <div class='d-flex'>
-                                    <button class='plus${id} form-control bg-danger' value='${price}' onclick='btnPlus(${id})'><i class="fa-solid fa-plus "></i></button>
-                                    <button class='minus${id} form-control bg-warning' value='${price}' onclick='btnMinus(${id})'><i class="fa-solid fa-minus"></i></button>
-                                </div>
-                            </td>
-                            <td data-th="Subtotal" class="total-price${id} text-center" value='${price}'>
-                                <input class="rsPhone2${id} form-control text-center" readonly value='${price.toLocaleString()} đ' type="text"> 
-                            </td>
-                            <td class="actions" data-th="">
-                                <button class="btn form-control btn-danger btn-sm"><i class="fa fa-trash-o"></i>Xóa
-                                </button>
-                            </td>
-                        </tr>`
+                                <div class='col-3 pt-4 text-wrap'><input class="w-100 rsPhone2${id} form-control text-center" readonly value='${price.toLocaleString()} đ' type="text"> </div>        
+                                <div class='col-1 pt-4 text-wrap'><input type='button'  value="Xóa" class="form-control btn-danger "></button></div>
+                            </div>
+                        </div>`
             })
 
             const newRender = render.join('')
             console.log(newRender)
             html += newRender
-            html += `<tfoot>
+            html += `<table id="cart" class="table table-hover table-condensed><tfoot>
                     <tr class="visible-xs">
                     </tr>
                     <tr>
@@ -271,7 +287,7 @@ function btnCategory() {
                             <strong>Tổng tiền ... đ</strong>
                         </td>
                         <td>
-                            <button class="btn form-control btn-success btn-block">Thanh toán <i class="fa fa-angle-right"></i></button>
+                            <button class="w-75 btn form-control btn-success">Thanh toán <i class="fa fa-angle-right"></i></button>
                         </td>
                     </tr>
                 </tfoot>
