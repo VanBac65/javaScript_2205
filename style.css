@@ -1,0 +1,86 @@
+.navbar {
+    background-color: #d70018;
+    color: aliceblue;
+    height: 15%;
+    width: auto;
+}
+
+.navbar div:hover{
+    cursor: pointer;
+    padding: 0px;
+    margin: 0px;
+    text-shadow: 0px 10px 5px black;
+}
+
+.navbar a{
+    list-style: none;
+    text-decoration: none;
+    color: white;
+}
+
+.navbar .btn{
+    color: white;
+}
+
+.shopping button{
+    background-color: #d70018;
+    border: 0px solid #d70018;
+}
+
+.category ul li:hover{
+    margin-left: 20px;
+    box-shadow: 0px 0px 10px blue;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.category ul{
+    padding-left: 0px !important;
+}
+
+ul{
+    text-decoration: none;
+    list-style: none;
+}
+
+.render {
+    background: linear-gradient(rgb(241, 50, 55), rgb(248, 207, 214));
+}
+
+.card-data{
+   padding: 5px;
+   
+}
+
+.card {
+    border-radius: 50px;
+}
+
+.card:hover{
+    box-shadow: 0px 0px 50px blue;
+}
+
+.img {
+    height: 60%;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5px;
+}
+
+.card-body {
+    height: 40%;
+}
+
+.card-title{
+    height: 40%;
+    text-overflow: ellipsis;
+}
+
+.number-page{
+    padding-top: 10px;
+    padding-left: 50%;
+}
+
+.category-page{
+    display: none;
+}
