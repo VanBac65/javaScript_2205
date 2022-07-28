@@ -73,6 +73,8 @@ const data = [{
 }
 ]
 
+let totalPriceAll = 0
+
 const newData = data.map((elm, index) => ({
     ...elm,
     id: index
@@ -104,7 +106,7 @@ const renderAllData = (data, numberPage) => {
         let html = ``
         const rsNumberPage = Math.ceil(data.length / 8)
         for (let i = 0; i < rsNumberPage; i++) {
-            html += `<button class='me-1' onclick='clickNumberPageAll(${i})'>${i + 1}</button>`
+            html += `<button class='btn-number-page me-1' onclick='clickNumberPageAll(${i})'>${i + 1}</button>`
         }
         if (rsNumberPage > 1) {
             document.querySelector('.number-page').innerHTML = html
@@ -206,19 +208,6 @@ function btnCategory() {
     const newArrBuy = arrBuy.filter(elm => elm)
     document.querySelector('.home-page').style.display = 'none'
     const renderCategory = (newArrBuy) => {
-        // let html = `<div class="container-fluid">
-        //                 <table id="cart" class="table table-hover table-condensed">
-        //                     <thead>
-        //                         <tr>
-        //                             <th class='col-md-1' style="width:15%">Ảnh</th>
-        //                             <th class='col-md-1' style="width:35%">Tên sản phẩm</th>
-        //                             <th style="width:10%">Giá</th>
-        //                             <th style="width:8%">Số lượng</th>
-        //                             <th style="width:22%" class="text-center">Thành tiền</th>
-        //                             <th style="width:10%"></th>
-        //                         </tr>
-        //                     </thead>
-        //                     <tbody>`
         let html = `<div class='container-fluid  p-1'>
                         <div class='row d-flex text-center'>
                                 <div class='col-1'>Ảnh</div>
@@ -230,33 +219,6 @@ function btnCategory() {
                         </div>`
         const renderDataCategory = (newArrBuy) => {
             const render = newArrBuy.map(({ company, name, price, img, id }, index) => {
-                // return `<tr>
-                //             <td data-th="Product">
-                //                 <div class="row">
-                //                     <div class="col-md-1"><img src='${img}'
-                //                     class="img-responsive" width="100"></div>
-                //                 </div>
-                //             </td>
-                //             <td>
-                //                 <div class="col-md-10">
-                //                     <h4 class="nomargin">${name}</h4>
-                //                 </div>
-                //             </td>
-                //             <td data-th="Price">${price.toLocaleString()} đ</td>
-                //             <td data-th="Quantity"><input class="rsPhone${id} form-control text-center" readonly value='1' type="text">
-                //                 <div class='d-flex'>
-                //                     <button class='plus${id} form-control bg-danger' value='${price}' onclick='btnPlus(${id})'><i class="fa-solid fa-plus "></i></button>
-                //                     <button class='minus${id} form-control bg-warning' value='${price}' onclick='btnMinus(${id})'><i class="fa-solid fa-minus"></i></button>
-                //                 </div>
-                //             </td>
-                //             <td data-th="Subtotal" class="total-price${id} text-center" value='${price}'>
-                //                 <input class="rsPhone2${id} form-control text-center" readonly value='${price.toLocaleString()} đ' type="text"> 
-                //             </td>
-                //             <td class="actions" data-th="">
-                //                 <button class="btn form-control btn-danger btn-sm"><i class="fa fa-trash-o"></i>Xóa
-                //                 </button>
-                //             </td>
-                //         </tr>`
                 return `<div class='row pt d-flex justify-content-center'>
                                 <div class='col-1 text-wrap'><img src='${img}' class="w-100 img-responsive"></div>
                                 <div class='col-3 pt-4 text-wrap'>${name}</div>
@@ -267,13 +229,16 @@ function btnCategory() {
                                             <div class='p-0 col-2'><button class='col-1 minus${id} form-control bg-warning' value='${price}' onclick='btnMinus(${id})'><i class="fa-solid p-0 fa-minus"></i></button></div>                               
                                 </div>
                                 <div class='col-3 pt-4 text-wrap'><input class="w-100 rsPhone2${id} form-control text-center" readonly value='${price.toLocaleString()} đ' type="text"> </div>        
-                                <div class='col-1 pt-4 text-wrap'><input type='button'  value="Xóa" class="form-control btn-danger "></button></div>
+                                <div class='col-1 pt-4 text-wrap'><input type='button' onclick='btnDel(${id})'  value="Xóa" class="form-control btn-danger "></button></div>
                             </div>
                         </div>`
             })
-
+            const totalPriceOneAll = newArrBuy.reduce((pre, { price }) => {
+                pre += price
+                return pre
+            }, 0)
+            totalPriceAll = totalPriceOneAll
             const newRender = render.join('')
-            console.log(newRender)
             html += newRender
             html += `<table id="cart" class="table table-hover table-condensed><tfoot>
                     <tr class="visible-xs">
@@ -283,11 +248,11 @@ function btnCategory() {
                             <button onclick='preHome()' class="btn btn-pre-home btn-warning"><i class="fa fa-angle-left"></i> Tiếp tục mua hàng</button>
                         </td>
                         <td colspan="2" class="hidden-xs"> </td>
-                        <td class="hidden-xs text-center">
-                            <strong>Tổng tiền ... đ</strong>
+                        <td class="total-price hidden-xs text-center">
+                            <strong>Tổng tiền ${totalPriceOneAll.toLocaleString()} đ</strong>
                         </td>
-                        <td>
-                            <button class="w-75 btn form-control btn-success">Thanh toán <i class="fa fa-angle-right"></i></button>
+                        <td class='btnPay'>
+                            <button value='${totalPriceOneAll}' onclick='payAll()' class="rsPay w-75 btn form-control btn-success">Thanh toán <i class="fa fa-angle-right"></i></button>
                         </td>
                     </tr>
                 </tfoot>
@@ -295,7 +260,6 @@ function btnCategory() {
             </table>
         </div>`
             document.querySelector(`.category-page`).innerHTML = html
-            console.log(html)
 
         }
         renderDataCategory(newArrBuy)
@@ -305,18 +269,27 @@ function btnCategory() {
     renderCategory(newArrBuy)
 }
 
+
+
 function btnPlus(id) {
-    let valueRsPhone = document.querySelector(`.rsPhone${id}`).value
+    console.log(totalPriceAll)
+    let valueRsPhone = Number(document.querySelector(`.rsPhone${id}`).value)
     valueRsPhone++
+    totalPriceAll += Number(document.querySelector(`.plus${id}`).value)
     document.querySelector(`.rsPhone${id}`).value = valueRsPhone
+    document.querySelector(`.total-price`).innerHTML = `<strong>Tổng tiền ${totalPriceAll.toLocaleString()} đ</strong>`
+    document.querySelector(`.btnPay`).innerHTML = `<button onclick='payAll()' value='${totalPriceAll}' class="rsPay w-75 btn form-control btn-success">Thanh toán <i class="fa fa-angle-right"></i></button>`
     document.querySelector(`.rsPhone2${id}`).value = `${(document.querySelector(`.plus${id}`).value * valueRsPhone).toLocaleString()} đ`
 }
 
 function btnMinus(id) {
     if (document.querySelector(`.rsPhone${id}`).value > 0) {
         document.querySelector(`.rsPhone${id}`).value--
-        valueRsPhone = document.querySelector(`.rsPhone${id}`).value
+        valueRsPhone = Number(document.querySelector(`.rsPhone${id}`).value)
+        totalPriceAll -= Number(document.querySelector(`.plus${id}`).value)
+        document.querySelector(`.total-price`).innerHTML = `<strong>Tổng tiền ${totalPriceAll.toLocaleString()} đ</strong>`
         document.querySelector(`.rsPhone2${id}`).value = `${(document.querySelector(`.minus${id}`).value * valueRsPhone).toLocaleString()} đ`
+        document.querySelector(`.btnPay`).innerHTML = `<button onclick='payAll()' value='${totalPriceAll}' class="rsPay w-75 btn form-control btn-success">Thanh toán <i class="fa fa-angle-right"></i></button>`
     }
     console.log(document.querySelector(`.rsPhone${id}`).value)
 }
@@ -324,6 +297,18 @@ function btnMinus(id) {
 function preHome() {
     document.querySelector(`.home-page`).style.display = 'inherit'
     document.querySelector(`.category-page`).style.display = 'none'
+}
+
+function btnDel(id) {
+    arrBuy[id] = null
+    const newArrBuy = arrBuy.filter(elm => elm)
+    document.querySelector('.rs-category').innerHTML = newArrBuy.length
+    document.querySelector(`.buy${id}`).innerHTML = 'Mua'
+    btnCategory()
+}
+
+function payAll() {
+    alert(`Thanh toán thành công : ${(Number(document.querySelector('.rsPay').value)).toLocaleString()} đ`)
 }
 
 searchData(newData)
